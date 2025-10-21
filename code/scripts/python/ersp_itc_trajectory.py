@@ -133,7 +133,7 @@ for i, (name, (pwr, itc)) in enumerate(ersp_itc.items()):
     axes[i,0].set_title(f"{name} - ERSP (C4)")
     itc.plot(picks=[0], axes=axes[i,1], colorbar=True, show=False)
     axes[i,1].set_title(f"{name} - ITC (C4)")
-plt.savefig('./s3_left_C4_ersp_itc.png', dpi=300)
+plt.savefig('../output/s3_left_C4_ersp_itc.png', dpi=300)
 plt.show()
 
 from scipy.stats import sem, t
@@ -161,7 +161,7 @@ plt.xlabel('Time (ms)')
 plt.ylabel('x position (mm)')
 plt.title('Average hand trajectory ±95%CI')
 plt.legend()
-plt.savefig('./s3_left_trajectory.png', dpi=300)
+plt.savefig('../output/s3_left_trajectory.png', dpi=300)
 plt.show()
 
 
