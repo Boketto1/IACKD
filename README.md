@@ -24,8 +24,8 @@ Synchronized **EEG** and **3-D hand kinematics** collected under **congruent** a
 ## 2) Repository structure
 <pre>
 .
-├─ datasets/                # (optional) small sample files for quick tests
-├─ scripts/                 # MATLAB & Python analysis scripts
+├─ Datasets/s3/preprocessed data/ # (optional) small sample files for quick tests
+├─ code/scripts/                 # MATLAB & Python analysis scripts
 │  ├─ matlab/
 │  │  ├─ preprocess_eeg_pipeline.m
 │  │  ├─ preprocess_premotor_55_14.m
@@ -37,7 +37,7 @@ Synchronized **EEG** and **3-D hand kinematics** collected under **congruent** a
 │     ├─ time_res.py        # sync residuals & completion-time summaries
 │     ├─ erd_ers.py         # RP / ERD-ERS
 │     └─ eeg2leap.py        # ERSP / ITC / trajectories
-├─ figures/                 # validation figures (optional)
+├─ code/output                 # validation figures (optional)
 └─ README.md
 </pre>
 
