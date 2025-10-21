@@ -164,7 +164,7 @@ else:
 
     ax.legend(frameon=False)
     plt.tight_layout()
-    plt.savefig('./start_res_ms.png', dpi=300)
+    plt.savefig('../output/start_res_ms.png', dpi=300)
     plt.show()
 
 
@@ -231,7 +231,7 @@ def extract_trials_from_mat(mat_path: str):
 
     arr = OUT.ravel() if isinstance(OUT, np.ndarray) else OUT
     for o in arr:
-        # 取 t_ms
+        # t_ms
         if isinstance(o, dict):
             t_i = o.get('t_ms', None)
             color = o.get('ball_color', None)
@@ -389,7 +389,7 @@ legend_elems = [Patch(facecolor='#8ecae6', alpha=0.6, label='Left'),
 ax.legend(handles=legend_elems, frameon=False, ncol=2, loc='upper right')
 
 plt.tight_layout()
-plt.savefig('./completion time_all_sub.png', dpi=300)
+plt.savefig('../output/completion time_all_sub.png', dpi=300)
 plt.show()
 
 
@@ -429,7 +429,7 @@ overlay_jitter_scatter(ax, groups, x_positions=[1,2], width=0.6, alpha=0.2, s=5)
 ax.set_ylabel('Completion time (ms)')
 ax.set_title('Left hand: congruency')
 ax.grid(axis='y', alpha=0.25, linewidth=0.6)
-plt.savefig('./complete_time_left.png', dpi=300)
+plt.savefig('../output/complete_time_left.png', dpi=300)
 plt.tight_layout(); plt.show()
 
 
@@ -460,7 +460,7 @@ overlay_jitter_scatter(ax, groups, x_positions=[1,2], width=0.6, alpha=0.2, s=5)
 ax.set_ylabel('Completion time (ms)')
 ax.set_title('Reft hand: congruency')
 ax.grid(axis='y', alpha=0.25, linewidth=0.6)
-plt.savefig('./complete_time_right.png', dpi=300)
+plt.savefig('../output/complete_time_right.png', dpi=300)
 plt.tight_layout(); plt.show()
 
 
@@ -513,9 +513,6 @@ for sid, subdf in dfc.groupby('subject'):
             print(f"{hand}: No data")
 
 
-# In[27]:
-
-
 import os
 import pandas as pd
 import numpy as np
@@ -548,7 +545,7 @@ extra_rows = [
 summary_df = pd.concat([per_subj, pd.DataFrame(extra_rows)], ignore_index=True)
 
 # 4. Export CSV
-out_csv = os.path.join("./completion_time_summary.csv")
+out_csv = os.path.join("../output/completion_time_summary.csv")
 summary_df.to_csv(out_csv, index=False)
 print(f"[Export successful] {out_csv}")
 display(summary_df.round(2))
