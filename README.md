@@ -34,9 +34,9 @@ Synchronized **EEG** and **3-D hand kinematics** collected under **congruent** a
 │  │  ├─ calibrate_pairs_with_events.m
 │  │  └─ export_eeg_leap_aligned.m
 │  └─ python/
-│     ├─ time_res.py        # sync residuals & completion-time summaries
-│     ├─ erd_ers.py         # RP / ERD-ERS
-│     └─ eeg2leap.py        # ERSP / ITC / trajectories
+│     ├─ rp4pre_move.py        # RP / ERD-ERSsync 
+│     ├─ res_completion_time.py  # residuals & completion-time summaries     
+│     └─ ersp_itc_trajectory.py  # ERSP / ITC / trajectories
 ├─ code/output                 # validation figures (optional)
 └─ README.md
 </pre>
