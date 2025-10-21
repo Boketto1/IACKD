@@ -24,7 +24,7 @@ Synchronized **EEG** and **3-D hand kinematics** collected under **congruent** a
 ## 2) Repository structure
 <pre>
 .
-├─ Datasets/s3/preprocessed data/ # (optional) small sample files for quick tests
+├─ Datasets/s3/preprocessed data/# small sample files for quick tests
 ├─ code/scripts/                 # MATLAB & Python analysis scripts
 │  ├─ matlab/
 │  │  ├─ preprocess_eeg_pipeline.m
