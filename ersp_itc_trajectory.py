@@ -1,15 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-# In[ ]:
-
-
-
-
-
-# In[2]:
-
-
 import mat73, numpy as np, mne
 from scipy.stats import sem, t
 
@@ -177,6 +167,7 @@ plt.show()
 
 
 # In[ ]:
+
 
 
 
