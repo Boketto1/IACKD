@@ -46,33 +46,86 @@ Synchronized **EEG** and **3-D hand kinematics** collected under **congruent** a
 ## 3) Quick start
 
 ### MATLAB
+### MATLAB example for pre_move
 ```matlab
-% Pre-move extraction (55 → 14)
 preprocess_premotor_55_14( ...
-  'D:\datasets\raw data\s1\eeg\Acquisition 01l.cdt', ...
-  'D:\datasets\raw data\s1\leap motion\left_ball_1.csv', ...
-  'D:\output\pre_eeg_L1.mat');
+  'D:\datasets\raw data\s1\eeg\Acquisition 01l.cdt', ...           % Path to the .cdt EEG file
+  'D:\datasets\raw data\s1\leap motion\left_ball_1.csv ', ...       % CSV file containing color_ball / move_direct information
+  'D:\output\pre_eeg_L1.mat' ...                                    % Output path for the resulting .mat file
+);
+```
 
-% Align EEG & Leap (move execution)
+
+### MATLAB example for move_execution
+```matlab
+% Part 1
+% EEG segment preprocessing
+preprocess_eeg_pipeline % Modify the internal path to the raw EEG file: "D:\datasets\raw data\s1\eeg\Acquisition 01l.cdt"
+```
+```matlab
+% Part 2
+% Align the time axes of *_ball_*.csv and *_leap_*.csv files
+ball_csv = 'D:\datasets\raw data\s1\leap motion\left_ball_1.csv';
+leap_csv = 'D:\datasets\raw data\s1\leap motion\left_leap_1.csv';
+
+M = exact_offset_from_xy(ball_csv, leap_csv, ...
+    'tol_mm', 0, ...
+    'normalize_time', false, ...
+    'by_trial', true, ...       % Recommended to enable this to avoid cross-trial mismatches
+    'show_plot', true, ...
+    'bin_ms', 5);
+% Edit lines 51–52 in process_leap_dual_csv5.m and replace a and b with the values output by exact_offset_from_xy.m
+```
+```matlab
+% Part 3
+% Merge two Leap Motion streams and generate a unified file
+process_leap_dual_csv( ...
+  'D:\datasets\raw data\s1\leap motion\left_ball_1.csv', ...
+  'D:\datasets\raw data\s1\leap motion\left_leap_1.csv', ...
+  'D:\output\leap\leap_L1.mat', ... % Output path for the preprocessed and aligned Leap Motion data
+  100, ...       % Output sampling rate (Hz)
+  250, ...       % Threshold for severe frame loss in hand tracking (ms)
+  4, ...         % Band-pass filter cutoff for hand trajectory (Hz)
+  4);            % 4th-order Butterworth filter
+```
+```matlab
+% Part 4
+% Align EEG data with Leap Motion data
 align_eeg_leap( ...
   'D:\output\eeg\eeg_L1.mat', ...
   'D:\output\leap\leap_L1.mat', ...
-  'D:\output\out', 300, 2000);
-
-% Export aligned multimodal data
+  'D:\output\out', ... % Output folder for align_eeg_leap; generates eeg_leap_pairs.mat and eeg_leap_pairs_summary.csv
+  300, ...  % Tolerance for duration difference between EEG and kinematic data (ms)
+  2000);    % Penalty for skipping trials in dynamic programming (controls matching count)
+```
+```matlab
+% Part 5
+% Recalibrate the aligned pairs and compute residual tolerance
+calibrate_pairs_with_events2( ...
+  'D:\output\eeg\eeg_L1.mat', ... 
+  'D:\output\leap\leap_L1.mat', ...
+  'D:\output\out\eeg_leap_pairs.mat', ...
+  'D:\output\out', ... % Output directory for this script; generates eeg_leap_pairs_events_from_dp.mat
+  600); % Residual tolerance for event alignment (ms)
+  ```
+```matlab
+% Part 6
+% Export the final aligned multimodal dataset
 export_eeg_leap_aligned( ...
   'D:\output\eeg\eeg_L1.mat', ...
   'D:\output\leap\leap_L1.mat', ...
   'D:\output\out\eeg_leap_pairs.mat', ...
   'D:\output\out\eeg_leap_pairs_events_from_dp.mat', ...
   'D:\output\final_out\eeg_leap_L1.mat');
-```
+  ```
 ### python
+```python
 import scipy.io as sio
 m = sio.loadmat('eeg_leap_L1.mat', squeeze_me=True, struct_as_record=False)
 out = m['OUT'][0]
 print(out['EEG'].shape)      # (nChan, T) at 100 Hz
 print(out['x_mm'].shape)     # (T,) 3-D trajectory also at 100 Hz
+```
 ## 4) Environment / dependencies
 MATLAB R2023b (tested) + EEGLAB v2025
 
@@ -114,10 +167,6 @@ Data: Creative Commons CC BY 4.0
 
 Code: MIT (unless otherwise stated in file headers)
 ## 8) Contact & issues
-Maintainer: Mengpu Cai, Yanshan University
-
-Email: mpcai@stumail.ysu.edu.cn
-Thanks to all participants and lab members who supported data collection and validation.
 GitHub Issues: please open a ticket with steps to reproduce and logs.
 ## 9) Acknowledgements
 Thanks to all participants and lab members who supported data collection and validation.
